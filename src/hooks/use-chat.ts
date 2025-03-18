@@ -41,9 +41,25 @@ export const useChat = () => {
 
       const data = await response.json();
       
+      // Extract the bot response from different possible formats
+      let botResponse = "Sorry, I couldn't understand the response format.";
+      
+      // Handle array format response
+      if (Array.isArray(data) && data.length > 0 && data[0].output) {
+        botResponse = data[0].output;
+      } 
+      // Handle direct output format
+      else if (data.output) {
+        botResponse = data.output;
+      }
+      // Handle response or message format
+      else if (data.response || data.message) {
+        botResponse = data.response || data.message;
+      }
+      
       setTimeout(() => {
         setMessages(prev => [...prev, {
-          text: data.response || "I apologize, but I'm having trouble processing your request at the moment. Please try again.",
+          text: botResponse,
           isUser: false,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }]);

@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 
@@ -41,37 +42,13 @@ const Hero = () => {
           </div>
         </div>
         
-        {/* AI Robot Face - Static Image */}
-        <div className="relative">
-          <div className="relative bg-gradient-to-br from-ajent-gray to-ajent-dark p-8 rounded-2xl border border-white/10 blue-purple-glow aspect-square max-w-md mx-auto overflow-hidden group">
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_50%_50%,_rgba(0,191,255,0.5),_rgba(138,43,226,0.5))]"></div>
-              
-              {/* Circuit pattern overlay */}
-              <div className="absolute inset-0 opacity-20 mix-blend-overlay">
-                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <pattern id="circuit-pattern" width="50" height="50" patternUnits="userSpaceOnUse">
-                      <path d="M10,0 L10,50 M0,10 L50,10 M20,0 L20,50 M0,20 L50,20 M30,0 L30,50 M0,30 L50,30 M40,0 L40,50 M0,40 L50,40" 
-                            stroke="rgba(0, 191, 255, 0.5)" 
-                            strokeWidth="0.5" 
-                            fill="none" />
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill="url(#circuit-pattern)" />
-                </svg>
-              </div>
-            </div>
-            
-            {/* Robot face - Static Image */}
-            <div className="relative h-full w-full flex items-center justify-center">
-              <img
-                src="/lovable-uploads/a1ed49a3-7fd1-4216-9f5e-f7360cc64747.png"
-                alt="AI Robot"
-                className="w-full h-full object-contain"
-              />
-            </div>
-          </div>
+        {/* AI Robot Image - Larger Static Image */}
+        <div className="relative flex items-center justify-center">
+          <img
+            src="/lovable-uploads/a1ed49a3-7fd1-4216-9f5e-f7360cc64747.png"
+            alt="AI Robot"
+            className="w-[90%] h-auto object-contain"
+          />
         </div>
       </div>
       

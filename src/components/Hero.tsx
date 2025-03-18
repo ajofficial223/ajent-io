@@ -1,71 +1,15 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
-  const robotRef = useRef<HTMLImageElement>(null);
-  
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        // Calculate mouse position relative to the container
-        const x = (e.clientX - rect.left) / rect.width;
-        const y = (e.clientY - rect.top) / rect.height;
-        setMousePosition({ x, y });
-      }
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
-  
-  useEffect(() => {
-    if (robotRef.current) {
-      // Create subtle head-tracking effect
-      const moveX = (mousePosition.x - 0.5) * 5; // Subtle movement
-      const moveY = (mousePosition.y - 0.5) * 3;
-      
-      robotRef.current.style.transform = `translate(${moveX}px, ${moveY}px)`;
-    }
-  }, [mousePosition]);
-  
-  // Parallax effect for background elements
-  const [offset, setOffset] = useState(0);
-  
-  useEffect(() => {
-    const handleScroll = () => {
-      setOffset(window.pageYOffset);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-  
   return (
-    <section 
-      className="relative min-h-screen flex items-center pt-20 overflow-hidden"
-      ref={containerRef}
-    >
+    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* Background grid pattern */}
       <div className="absolute inset-0 grid-pattern"></div>
       
       {/* Animated gradient orbs */}
-      <div 
-        className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-ajent-blue/20 filter blur-3xl opacity-40 parallax"
-        style={{ transform: `translate(${offset * 0.1}px, ${offset * -0.05}px)` }}
-      ></div>
-      <div 
-        className="absolute bottom-1/4 right-1/3 w-96 h-96 rounded-full bg-ajent-purple/20 filter blur-3xl opacity-30 parallax"
-        style={{ transform: `translate(${offset * -0.15}px, ${offset * 0.05}px)` }}
-      ></div>
+      <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-ajent-blue/20 filter blur-3xl opacity-40"></div>
+      <div className="absolute bottom-1/4 right-1/3 w-96 h-96 rounded-full bg-ajent-purple/20 filter blur-3xl opacity-30"></div>
       
       <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center relative z-10">
         {/* Hero Text */}
@@ -97,7 +41,7 @@ const Hero = () => {
           </div>
         </div>
         
-        {/* AI Robot Face - Updated with new image */}
+        {/* AI Robot Face - Static Image */}
         <div className="relative">
           <div className="relative bg-gradient-to-br from-ajent-gray to-ajent-dark p-8 rounded-2xl border border-white/10 blue-purple-glow aspect-square max-w-md mx-auto overflow-hidden group">
             <div className="absolute inset-0 overflow-hidden">
@@ -119,29 +63,14 @@ const Hero = () => {
               </div>
             </div>
             
-            {/* Robot face - now using the provided image */}
+            {/* Robot face - Static Image */}
             <div className="relative h-full w-full flex items-center justify-center">
               <img
-                ref={robotRef}
                 src="/lovable-uploads/a1ed49a3-7fd1-4216-9f5e-f7360cc64747.png"
                 alt="AI Robot"
-                className="w-full h-full object-contain transition-transform duration-100 ease-out"
+                className="w-full h-full object-contain"
               />
-              
-              {/* Decorative elements */}
-              <div className="absolute top-1/12 left-1/4 w-1 h-1 bg-ajent-purple rounded-full animate-pulse"></div>
-              <div className="absolute top-1/6 right-1/3 w-2 h-2 bg-ajent-blue rounded-full animate-pulse delay-300"></div>
-              <div className="absolute bottom-1/4 left-1/5 w-1.5 h-1.5 bg-ajent-blue rounded-full animate-pulse delay-700"></div>
-              <div className="absolute bottom-1/5 right-1/5 w-1 h-1 bg-ajent-purple rounded-full animate-pulse delay-500"></div>
             </div>
-          </div>
-          
-          {/* Subtle text elements around the robot face */}
-          <div className="absolute top-1/4 -left-4 md:-left-12 px-2 py-1 bg-ajent-blue/10 border border-ajent-blue/20 text-xs font-mono rounded text-ajent-blue">
-            AI SYSTEM ONLINE
-          </div>
-          <div className="absolute bottom-1/4 -right-4 md:-right-12 px-2 py-1 bg-ajent-purple/10 border border-ajent-purple/20 text-xs font-mono rounded text-ajent-purple">
-            DEEP LEARNING ACTIVE
           </div>
         </div>
       </div>

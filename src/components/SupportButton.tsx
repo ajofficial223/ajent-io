@@ -1,6 +1,6 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { MessageCircle, X, Send } from 'lucide-react';
+import { useToast } from "@/components/ui/use-toast";
 
 const SupportButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +8,7 @@ const SupportButton = () => {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
   
   const toggleChat = () => setIsOpen(!isOpen);
   
@@ -27,12 +28,12 @@ const SupportButton = () => {
     setIsTyping(true);
     
     try {
-      // Send message to webhook with proper content type and payload format
       const response = await fetch('https://ajtestingwork.app.n8n.cloud/webhook-test/AJent.io', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        mode: 'cors', // Changed from 'no-cors' to 'cors'
         body: JSON.stringify({ 
           message: inputValue,
           userId: 'website-visitor',
@@ -40,48 +41,38 @@ const SupportButton = () => {
         }),
       });
       
-      // Wait for webhook response
-      if (response.ok) {
-        try {
-          const data = await response.json();
-          
-          // Add short delay to simulate typing
-          setTimeout(() => {
-            setMessages(prev => [...prev, {
-              text: data.response || "Thank you for your message! Our team will get back to you shortly.",
-              isUser: false,
-              time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            }]);
-            setIsTyping(false);
-          }, 1500);
-        } catch (parseError) {
-          console.error("Error parsing webhook response:", parseError);
-          
-          // Fallback if JSON parsing fails
-          setTimeout(() => {
-            setMessages(prev => [...prev, {
-              text: "Thank you for your message! Our team will get back to you shortly.",
-              isUser: false,
-              time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            }]);
-            setIsTyping(false);
-          }, 1500);
-        }
-      } else {
-        throw new Error('Webhook response was not ok');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    } catch (error) {
-      console.error("Error sending message to webhook:", error);
+
+      const data = await response.json();
       
-      // Add fallback bot response after error
       setTimeout(() => {
         setMessages(prev => [...prev, {
-          text: "I'm having trouble connecting right now. Please try again later or contact us directly at support@ajent.io.",
+          text: data.response || "I apologize, but I'm having trouble processing your request at the moment. Please try again.",
           isUser: false,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }]);
         setIsTyping(false);
-      }, 1000);
+      }, 500);
+      
+    } catch (error) {
+      console.error("Error sending message to webhook:", error);
+      
+      setTimeout(() => {
+        setMessages(prev => [...prev, {
+          text: "I'm having trouble connecting right now. Please try again later.",
+          isUser: false,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }]);
+        setIsTyping(false);
+      }, 500);
+      
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+      });
     }
   };
   

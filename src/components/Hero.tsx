@@ -5,8 +5,7 @@ import { ArrowRight } from 'lucide-react';
 const Hero = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
-  const eyeLeftRef = useRef<HTMLDivElement>(null);
-  const eyeRightRef = useRef<HTMLDivElement>(null);
+  const robotRef = useRef<HTMLImageElement>(null);
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -26,13 +25,12 @@ const Hero = () => {
   }, []);
   
   useEffect(() => {
-    if (eyeLeftRef.current && eyeRightRef.current) {
-      // Move eyes based on mouse position
-      const moveX = (mousePosition.x - 0.5) * 15; // Max 7.5px movement
-      const moveY = (mousePosition.y - 0.5) * 10; // Max 5px movement
+    if (robotRef.current) {
+      // Create subtle head-tracking effect
+      const moveX = (mousePosition.x - 0.5) * 5; // Subtle movement
+      const moveY = (mousePosition.y - 0.5) * 3;
       
-      eyeLeftRef.current.style.transform = `translate(${moveX}px, ${moveY}px)`;
-      eyeRightRef.current.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      robotRef.current.style.transform = `translate(${moveX}px, ${moveY}px)`;
     }
   }, [mousePosition]);
   
@@ -99,9 +97,9 @@ const Hero = () => {
           </div>
         </div>
         
-        {/* AI Robot Face */}
+        {/* AI Robot Face - Updated with new image */}
         <div className="relative">
-          <div className="relative bg-gradient-to-br from-ajent-gray to-ajent-dark p-12 rounded-2xl border border-white/10 blue-purple-glow aspect-square max-w-md mx-auto overflow-hidden group">
+          <div className="relative bg-gradient-to-br from-ajent-gray to-ajent-dark p-8 rounded-2xl border border-white/10 blue-purple-glow aspect-square max-w-md mx-auto overflow-hidden group">
             <div className="absolute inset-0 overflow-hidden">
               <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_50%_50%,_rgba(0,191,255,0.5),_rgba(138,43,226,0.5))]"></div>
               
@@ -121,34 +119,14 @@ const Hero = () => {
               </div>
             </div>
             
-            {/* Robot face elements */}
-            <div className="relative h-full w-full">
-              {/* Head outline */}
-              <div className="absolute top-1/4 left-1/2 w-36 h-48 -translate-x-1/2 border-2 border-ajent-blue/70 rounded-2xl"></div>
-              
-              {/* Eyes container */}
-              <div className="absolute top-1/3 left-1/2 w-32 h-12 -translate-x-1/2 flex justify-between">
-                {/* Left eye */}
-                <div className="w-12 h-12 border-2 border-ajent-blue/70 rounded-xl flex items-center justify-center overflow-hidden bg-ajent-dark/60">
-                  <div 
-                    ref={eyeLeftRef}
-                    className="w-6 h-6 rounded-full bg-ajent-blue transition-transform duration-100 ease-out blue-glow"
-                  ></div>
-                </div>
-                
-                {/* Right eye */}
-                <div className="w-12 h-12 border-2 border-ajent-blue/70 rounded-xl flex items-center justify-center overflow-hidden bg-ajent-dark/60">
-                  <div 
-                    ref={eyeRightRef}
-                    className="w-6 h-6 rounded-full bg-ajent-blue transition-transform duration-100 ease-out blue-glow"
-                  ></div>
-                </div>
-              </div>
-              
-              {/* Mouth */}
-              <div className="absolute top-2/3 left-1/2 w-24 h-3 -translate-x-1/2 overflow-hidden">
-                <div className="w-full h-full border-b-2 border-ajent-blue/70 rounded-full"></div>
-              </div>
+            {/* Robot face - now using the provided image */}
+            <div className="relative h-full w-full flex items-center justify-center">
+              <img
+                ref={robotRef}
+                src="/lovable-uploads/a1ed49a3-7fd1-4216-9f5e-f7360cc64747.png"
+                alt="AI Robot"
+                className="w-full h-full object-contain transition-transform duration-100 ease-out"
+              />
               
               {/* Decorative elements */}
               <div className="absolute top-1/12 left-1/4 w-1 h-1 bg-ajent-purple rounded-full animate-pulse"></div>

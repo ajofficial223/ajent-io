@@ -51,10 +51,12 @@ const FounderSection = () => {
               <div className="absolute -inset-2 bg-gradient-to-br from-ajent-blue/30 to-ajent-purple/30 rounded-2xl blur-lg opacity-70 animate-pulse-glow"></div>
               <div className="relative glass-card rounded-2xl p-1 border border-white/20 overflow-hidden">
                 <div className="aspect-square bg-ajent-gray rounded-xl overflow-hidden">
-                  {/* Placeholder for founder image */}
-                  <div className="w-full h-full bg-ajent-gray flex items-center justify-center">
-                    <div className="text-6xl font-futura text-ajent-blue">AJ</div>
-                  </div>
+                  {/* Use the provided founder image */}
+                  <img 
+                    src="/lovable-uploads/eae367f7-460c-4a5b-92e6-5e1fb44fe4c8.png" 
+                    alt="Avishkar Jadhav - Founder"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
               

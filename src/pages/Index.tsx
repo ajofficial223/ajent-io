@@ -10,7 +10,6 @@ import PersonalizedJourneys from '../components/PersonalizedJourneys';
 import FounderSection from '../components/FounderSection';
 import SupportButton from '../components/SupportButton';
 import Footer from '../components/Footer';
-import CursorTracker from '../components/CursorTracker';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -64,9 +63,6 @@ const Index = () => {
   
   return (
     <div className="min-h-screen bg-ajent-dark text-ajent-silver overflow-hidden">
-      {/* Custom cursor */}
-      <CursorTracker />
-      
       {/* Main Content */}
       <div className="relative">
         <Navbar />

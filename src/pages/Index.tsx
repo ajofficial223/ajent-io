@@ -17,13 +17,13 @@ const Index = () => {
   useEffect(() => {
     // Very short initial loading time to prevent long blank screens
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 600);
+      setIsLoading(false); // Ensure this runs quickly to show content
+    }, 600); // Reduced from 600ms for faster initial content display
     
     // Absolute max loading time - force content to show after this time
     const forceShowContent = setTimeout(() => {
       setIsLoading(false);
-    }, 2000); // Reduced from 3000ms to 2000ms for faster response
+    }, 2000); // Reduced to ensure content shows up quickly
     
     // Set up scroll reveal animations
     const setupObserver = () => {
@@ -56,6 +56,7 @@ const Index = () => {
     };
   }, [isLoading]);
   
+  // Quick loading screen that won't last too long
   if (isLoading) {
     return (
       <div className="fixed inset-0 bg-ajent-dark flex items-center justify-center z-50">

@@ -1,7 +1,7 @@
 
 "use client";
 
-import { Suspense, lazy, useState, useEffect } from 'react';
+import { Suspense, lazy, useState, useEffect, useRef } from 'react';
 const Spline = lazy(() => import('@splinetool/react-spline'));
 
 interface SplineSceneProps {
@@ -12,50 +12,65 @@ interface SplineSceneProps {
 export function SplineScene({ scene, className = "" }: SplineSceneProps) {
   const [isSplineError, setIsSplineError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Check if WebGL is supported
+  // Check if WebGL is supported right away
   useEffect(() => {
-    // More comprehensive WebGL detection
+    // Immediately test for WebGL support
     try {
       const canvas = document.createElement('canvas');
       const gl = canvas.getContext('webgl') || 
-                canvas.getContext('experimental-webgl') || 
-                canvas.getContext('webgl2');
+                 canvas.getContext('experimental-webgl');
       
       if (!gl) {
         console.warn("WebGL not supported - showing fallback image");
         setIsSplineError(true);
+        setIsLoading(false); // Ensure loading state is cleared
+        return; // Exit early if WebGL is not supported
       } else {
-        console.log("WebGL is supported. Attempting to load Spline scene:", scene);
+        console.log("WebGL is supported, will attempt to load Spline");
       }
     } catch (e) {
       console.error("Error checking WebGL support:", e);
       setIsSplineError(true);
+      setIsLoading(false);
+      return; // Exit early if error
     }
 
-    // Fallback timer - if Spline doesn't load within 7 seconds, show fallback
-    const fallbackTimer = setTimeout(() => {
-      if (!isSplineError && isLoading) {
-        console.log("Spline load timeout - showing fallback");
-        setIsSplineError(true);
-        setIsLoading(false);
-      }
-    }, 7000);
+    // Only set fallback timer if WebGL is supported
+    timeoutRef.current = setTimeout(() => {
+      console.log("Spline load timeout after 5 seconds - showing fallback");
+      setIsSplineError(true);
+      setIsLoading(false);
+    }, 5000);
 
-    return () => clearTimeout(fallbackTimer);
-  }, [scene, isSplineError, isLoading]);
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleSplineError = () => {
     console.log("Spline failed to load - showing fallback");
     setIsSplineError(true);
     setIsLoading(false);
+    // Clear the timeout if there was an error
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
   };
 
   const handleSplineLoad = () => {
     console.log("Spline scene loaded successfully");
     setIsLoading(false);
+    // Clear the timeout as loading succeeded
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
   };
 
+  // If there's an error, show the fallback image immediately
   if (isSplineError) {
     return (
       <div className="w-full h-full flex items-center justify-center">

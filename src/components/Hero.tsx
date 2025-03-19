@@ -1,6 +1,7 @@
 
-import { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { Card } from "@/components/ui/card";
+import { SplineScene } from "@/components/ui/spline-scene";
 
 const Hero = () => {
   return (
@@ -42,13 +43,14 @@ const Hero = () => {
           </div>
         </div>
         
-        {/* AI Robot Image - Larger Static Image */}
+        {/* 3D Robot with Spline */}
         <div className="relative flex items-center justify-center">
-          <img
-            src="/lovable-uploads/a1ed49a3-7fd1-4216-9f5e-f7360cc64747.png"
-            alt="AI Robot"
-            className="w-[90%] h-auto object-contain"
-          />
+          <Card className="w-full aspect-square bg-black/[0.96] relative overflow-hidden rounded-2xl border border-white/10 blue-purple-glow">
+            <SplineScene 
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" 
+              className="w-full h-full" 
+            />
+          </Card>
         </div>
       </div>
       

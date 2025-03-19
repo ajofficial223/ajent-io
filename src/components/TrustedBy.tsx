@@ -29,6 +29,15 @@ const TrustedBy = () => {
     };
   }, []);
   
+  // Define company logos with their names
+  const companyLogos = [
+    { name: "Google", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2880px-Google_2015_logo.svg.png" },
+    { name: "Apple", logo: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" },
+    { name: "Reddit", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/5/58/Reddit_logo_new.svg/2560px-Reddit_logo_new.svg.png" },
+    { name: "Microsoft", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png" },
+    { name: "Amazon", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png" },
+  ];
+  
   return (
     <section className="py-20 relative overflow-hidden">
       {/* Background elements */}
@@ -45,22 +54,37 @@ const TrustedBy = () => {
           </p>
         </div>
         
-        <div className="flex flex-wrap justify-center items-center gap-12 md:gap-16">
-          {/* Company logos - using placeholder shapes for now */}
-          {[1, 2, 3, 4, 5].map((index) => (
-            <div 
-              key={index}
-              className="relative group reveal-text"
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              <div className="w-32 h-12 bg-white/5 backdrop-blur-sm border border-white/10 rounded-md flex items-center justify-center hover:bg-white/10 transition-all duration-300">
-                <div className="text-ajent-blue font-futura text-lg">
-                  LOGO {index}
-                </div>
+        {/* Animated logos marquee */}
+        <div className="relative overflow-hidden py-8 my-8">
+          <div className="logos-slide-track animate-marquee flex">
+            {/* First set of logos */}
+            {companyLogos.map((company, index) => (
+              <div 
+                key={`logo-1-${index}`}
+                className="mx-6 h-12 flex items-center bg-white/5 px-6 py-3 rounded-lg"
+              >
+                <img 
+                  src={company.logo} 
+                  alt={company.name} 
+                  className="h-6 sm:h-8 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                />
               </div>
-              <div className="absolute -inset-0.5 bg-blue-purple-gradient rounded-md opacity-0 group-hover:opacity-50 blur transition duration-500"></div>
-            </div>
-          ))}
+            ))}
+            
+            {/* Duplicate logos for seamless loop */}
+            {companyLogos.map((company, index) => (
+              <div 
+                key={`logo-2-${index}`}
+                className="mx-6 h-12 flex items-center bg-white/5 px-6 py-3 rounded-lg"
+              >
+                <img 
+                  src={company.logo} 
+                  alt={company.name} 
+                  className="h-6 sm:h-8 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                />
+              </div>
+            ))}
+          </div>
         </div>
         
         {/* Testimonials */}

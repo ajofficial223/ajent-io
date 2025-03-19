@@ -1,8 +1,16 @@
 
 import { ArrowRight } from 'lucide-react';
 import { SplineScene } from "@/components/ui/spline-scene";
+import { useEffect, useState } from 'react';
 
 const Hero = () => {
+  const [isClient, setIsClient] = useState(false);
+  
+  // This ensures hydration doesn't cause issues with Spline
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* Background grid pattern */}
@@ -44,10 +52,12 @@ const Hero = () => {
         
         {/* 3D Robot with Spline - with better error handling */}
         <div className="relative w-full h-[500px] md:h-[600px] flex items-center justify-center">
-          <SplineScene 
-            scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" 
-            className="w-full h-full" 
-          />
+          {isClient && (
+            <SplineScene 
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" 
+              className="w-full h-full" 
+            />
+          )}
         </div>
       </div>
       

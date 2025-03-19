@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useEffect, useRef } from "react";
-import { Application } from "@splinetool/runtime";
+import { Suspense, lazy } from 'react';
+const Spline = lazy(() => import('@splinetool/react-spline'));
 
 interface SplineSceneProps {
   scene: string;
@@ -10,31 +10,18 @@ interface SplineSceneProps {
 }
 
 export function SplineScene({ scene, className = "" }: SplineSceneProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const splineRef = useRef<Application | null>(null);
-
-  useEffect(() => {
-    if (!canvasRef.current) return;
-
-    // Create a new Spline application
-    splineRef.current = new Application(canvasRef.current);
-    
-    // Load the scene
-    splineRef.current.load(scene);
-
-    // Cleanup function
-    return () => {
-      if (splineRef.current) {
-        // Clean up the Spline application
-        splineRef.current = null;
-      }
-    };
-  }, [scene]);
-
   return (
-    <canvas
-      ref={canvasRef}
-      className={className}
-    />
+    <Suspense 
+      fallback={
+        <div className="w-full h-full flex items-center justify-center">
+          <span className="loader"></span>
+        </div>
+      }
+    >
+      <Spline
+        scene={scene}
+        className={className}
+      />
+    </Suspense>
   );
 }

@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -80,8 +81,8 @@ export default {
         sm: "calc(var(--radius) - 4px)"
       },
       fontFamily: {
-        sans: ["Helvetica", "Arial", "sans-serif"],
-        helvetica: ["Helvetica", "Arial", "sans-serif"],
+        sans: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+        helvetica: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
         futura: ["Orbitron", "sans-serif"],
       },

@@ -1,6 +1,5 @@
 
 import { ArrowRight } from 'lucide-react';
-import { Card } from "@/components/ui/card";
 import { SplineScene } from "@/components/ui/spline-scene";
 
 const Hero = () => {
@@ -43,14 +42,12 @@ const Hero = () => {
           </div>
         </div>
         
-        {/* 3D Robot with Spline */}
-        <div className="relative flex items-center justify-center">
-          <Card className="w-full aspect-square bg-black/[0.96] relative overflow-hidden rounded-2xl border border-white/10 blue-purple-glow">
-            <SplineScene 
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" 
-              className="w-full h-full" 
-            />
-          </Card>
+        {/* 3D Robot with Spline - directly integrated without a card */}
+        <div className="relative w-full h-[500px] md:h-[600px]">
+          <SplineScene 
+            scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" 
+            className="w-full h-full" 
+          />
         </div>
       </div>
       

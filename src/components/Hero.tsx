@@ -42,8 +42,8 @@ const Hero = () => {
           </div>
         </div>
         
-        {/* 3D Robot with Spline - directly integrated without a card */}
-        <div className="relative w-full h-[500px] md:h-[600px]">
+        {/* 3D Robot with Spline - with better error handling */}
+        <div className="relative w-full h-[500px] md:h-[600px] flex items-center justify-center">
           <SplineScene 
             scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" 
             className="w-full h-full" 

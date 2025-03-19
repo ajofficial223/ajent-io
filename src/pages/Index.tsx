@@ -15,10 +15,15 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    // Shorter loading time to prevent long blank screens
+    // Very short initial loading time to prevent long blank screens
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 800);
+    }, 600);
+    
+    // Absolute max loading time - force content to show after this time
+    const forceShowContent = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // Reduced from 3000ms to 2000ms for faster response
     
     // Set up scroll reveal animations
     const setupObserver = () => {
@@ -45,14 +50,9 @@ const Index = () => {
       setupObserver();
     }
     
-    // Ensure we show content even if 3D elements fail
-    const forceShow = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000); // Force show content after 3 seconds maximum
-    
     return () => {
       clearTimeout(timer);
-      clearTimeout(forceShow);
+      clearTimeout(forceShowContent);
     };
   }, [isLoading]);
   

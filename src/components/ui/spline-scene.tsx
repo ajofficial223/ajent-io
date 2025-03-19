@@ -14,12 +14,31 @@ export function SplineScene({ scene, className = "" }: SplineSceneProps) {
 
   // Check if WebGL is supported
   useEffect(() => {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    
-    if (!gl) {
+    // More comprehensive WebGL detection
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || 
+                canvas.getContext('experimental-webgl') || 
+                canvas.getContext('webgl2');
+      
+      if (!gl) {
+        console.warn("WebGL not supported - showing fallback image");
+        setIsSplineError(true);
+      }
+    } catch (e) {
+      console.error("Error checking WebGL support:", e);
       setIsSplineError(true);
     }
+
+    // Fallback timer - if Spline doesn't load within 5 seconds, show fallback
+    const fallbackTimer = setTimeout(() => {
+      if (!isSplineError) {
+        console.log("Spline load timeout - showing fallback");
+        setIsSplineError(true);
+      }
+    }, 5000);
+
+    return () => clearTimeout(fallbackTimer);
   }, []);
 
   const handleSplineError = () => {

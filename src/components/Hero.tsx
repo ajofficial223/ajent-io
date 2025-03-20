@@ -2,14 +2,22 @@
 import { ArrowRight } from 'lucide-react';
 import { SplineScene } from "@/components/ui/spline-scene";
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import RequestDemoForm from './RequestDemoForm';
 
 const Hero = () => {
   const [isClient, setIsClient] = useState(false);
+  const [isRequestDemoOpen, setIsRequestDemoOpen] = useState(false);
+  const navigate = useNavigate();
   
   // This ensures hydration doesn't cause issues with Spline
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const handleExploreAgents = () => {
+    navigate('/explore-agents');
+  };
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
@@ -34,19 +42,19 @@ const Hero = () => {
             Automate lead generation, customer service, and sales with intelligent AI assistants tailored for your industry.
           </p>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <a 
-              href="#agents" 
+            <button 
+              onClick={handleExploreAgents}
               className="inline-flex items-center justify-center px-6 py-3 bg-ajent-blue text-white font-medium rounded-lg transition-all duration-300 hover:bg-ajent-blue-dark btn-glow group"
             >
               Explore AI Agents
               <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
-            <a 
-              href="#demo" 
+            </button>
+            <button 
+              onClick={() => setIsRequestDemoOpen(true)}
               className="inline-flex items-center justify-center px-6 py-3 border border-ajent-blue/50 hover:border-ajent-blue text-ajent-blue font-medium rounded-lg transition-colors duration-300 hover:bg-ajent-blue/10"
             >
               Request Demo
-            </a>
+            </button>
           </div>
         </div>
         
@@ -68,6 +76,12 @@ const Hero = () => {
           <path d="M7 7L12 12L17 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
+
+      {/* Request Demo Modal */}
+      <RequestDemoForm 
+        open={isRequestDemoOpen} 
+        onOpenChange={setIsRequestDemoOpen} 
+      />
     </section>
   );
 };

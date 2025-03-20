@@ -1,6 +1,6 @@
 
 import { useEffect } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Search, Pen, Mail, Instagram, Package, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,37 +12,43 @@ const agentsData = [
     id: 1,
     title: "SEO Content Writer AI",
     description: "Generate SEO-optimized content that ranks well in search engines while engaging your audience.",
-    webhook: "https://hook.example.com/seo-writer"
+    webhook: "https://hook.example.com/seo-writer",
+    icon: Search
   },
   {
     id: 2,
     title: "Copywriter AI",
     description: "Create compelling copy for ads, landing pages, and marketing materials that converts visitors to customers.",
-    webhook: "https://hook.example.com/copywriter"
+    webhook: "https://hook.example.com/copywriter",
+    icon: Pen
   },
   {
     id: 3,
     title: "Personalized Email Writer AI",
     description: "Craft personalized email campaigns that speak directly to your customers and increase engagement.",
-    webhook: "https://hook.example.com/email-writer"
+    webhook: "https://hook.example.com/email-writer",
+    icon: Mail
   },
   {
     id: 4,
     title: "Social Media Content AI",
     description: "Generate engaging posts, captions, and hashtags optimized for different social media platforms.",
-    webhook: "https://hook.example.com/social-media"
+    webhook: "https://hook.example.com/social-media",
+    icon: Instagram
   },
   {
     id: 5,
     title: "Product Description AI",
     description: "Create compelling product descriptions that highlight benefits and features to boost conversions.",
-    webhook: "https://hook.example.com/product-desc"
+    webhook: "https://hook.example.com/product-desc",
+    icon: Package
   },
   {
     id: 6,
     title: "Customer Support AI",
     description: "Automate responses to common customer inquiries with natural, helpful AI-generated answers.",
-    webhook: "https://hook.example.com/support"
+    webhook: "https://hook.example.com/support",
+    icon: MessageSquare
   }
 ];
 
@@ -106,22 +112,28 @@ const ExploreAgents = () => {
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {agentsData.map((agent) => (
-            <Card key={agent.id} className="bg-ajent-dark-light border border-ajent-blue/20 hover:border-ajent-blue/40 transition-all duration-300 reveal-item opacity-0 translate-y-4">
-              <CardHeader>
-                <CardTitle className="text-xl font-bold text-white">{agent.title}</CardTitle>
-                <CardDescription className="text-ajent-silver/80">{agent.description}</CardDescription>
-              </CardHeader>
-              <CardFooter>
-                <Button 
-                  className="w-full bg-ajent-blue hover:bg-ajent-blue-dark transition-colors"
-                  onClick={() => handleTryAgent(agent.webhook)}
-                >
-                  Try It
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+          {agentsData.map((agent) => {
+            const IconComponent = agent.icon;
+            return (
+              <Card key={agent.id} className="bg-ajent-dark-light border border-ajent-blue/20 hover:border-ajent-blue/40 transition-all duration-300 reveal-item opacity-0 translate-y-4">
+                <CardHeader className="pb-2">
+                  <div className="w-12 h-12 rounded-full bg-ajent-blue/10 mb-4 flex items-center justify-center">
+                    <IconComponent className="h-6 w-6 text-ajent-blue" />
+                  </div>
+                  <CardTitle className="text-xl font-bold text-white">{agent.title}</CardTitle>
+                  <CardDescription className="text-ajent-silver/80">{agent.description}</CardDescription>
+                </CardHeader>
+                <CardFooter>
+                  <Button 
+                    className="w-full bg-ajent-blue hover:bg-ajent-blue-dark transition-colors"
+                    onClick={() => handleTryAgent(agent.webhook)}
+                  >
+                    Try It
+                  </Button>
+                </CardFooter>
+              </Card>
+            )
+          })}
         </div>
       </div>
       

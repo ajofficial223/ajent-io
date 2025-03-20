@@ -1,12 +1,24 @@
 
 import { useState, useEffect } from 'react';
-import { Menu, X, Globe, ChevronDown } from 'lucide-react';
+import { Menu, X, Globe, ChevronDown, Check } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useToast } from "@/components/ui/use-toast";
+
+// Available languages
+const languages = [
+  { code: 'en', name: 'English' },
+  { code: 'es', name: 'Español' },
+  { code: 'fr', name: 'Français' },
+  { code: 'de', name: 'Deutsch' },
+  { code: 'zh', name: 'Chinese' },
+];
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState('en');
   const navigate = useNavigate();
+  const { toast } = useToast();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +34,22 @@ const Navbar = () => {
   }, []);
   
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  
+  const changeLanguage = (langCode: string) => {
+    setCurrentLanguage(langCode);
+    const langName = languages.find(lang => lang.code === langCode)?.name;
+    toast({
+      title: "Language Changed",
+      description: `Language has been changed to ${langName}`,
+      duration: 3000,
+    });
+  };
+  
+  // Function to get current language display name
+  const getCurrentLanguageDisplay = () => {
+    const lang = languages.find(l => l.code === currentLanguage);
+    return lang ? lang.code.toUpperCase() : 'EN';
+  };
   
   return (
     <header 
@@ -71,14 +99,21 @@ const Navbar = () => {
           <div className="group relative">
             <button className="flex items-center space-x-1 text-ajent-silver hover:text-ajent-blue transition-colors">
               <Globe size={16} />
-              <span>EN</span>
+              <span>{getCurrentLanguageDisplay()}</span>
               <ChevronDown size={16} />
             </button>
             <div className="absolute top-full pt-2 right-0 w-32 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
               <div className="glass-card rounded-md p-2">
-                <button className="w-full text-left px-4 py-2 rounded-md hover:bg-white/10 transition-colors">English</button>
-                <button className="w-full text-left px-4 py-2 rounded-md hover:bg-white/10 transition-colors">Español</button>
-                <button className="w-full text-left px-4 py-2 rounded-md hover:bg-white/10 transition-colors">Français</button>
+                {languages.map((lang) => (
+                  <button 
+                    key={lang.code}
+                    className="w-full text-left px-4 py-2 rounded-md hover:bg-white/10 transition-colors flex items-center justify-between"
+                    onClick={() => changeLanguage(lang.code)}
+                  >
+                    {lang.name}
+                    {currentLanguage === lang.code && <Check size={16} className="text-ajent-blue" />}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -168,9 +203,19 @@ const Navbar = () => {
               <span>Language</span>
             </button>
             <div className="mt-2 pl-4 space-y-2">
-              <button className="block py-2 text-ajent-silver hover:text-ajent-blue transition-colors">English</button>
-              <button className="block py-2 text-ajent-silver hover:text-ajent-blue transition-colors">Español</button>
-              <button className="block py-2 text-ajent-silver hover:text-ajent-blue transition-colors">Français</button>
+              {languages.map((lang) => (
+                <button 
+                  key={lang.code}
+                  className="flex items-center w-full py-2 text-ajent-silver hover:text-ajent-blue transition-colors"
+                  onClick={() => {
+                    changeLanguage(lang.code);
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  {lang.name}
+                  {currentLanguage === lang.code && <Check size={16} className="ml-2 text-ajent-blue" />}
+                </button>
+              ))}
             </div>
           </div>
         </nav>

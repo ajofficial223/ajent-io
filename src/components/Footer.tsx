@@ -1,5 +1,6 @@
 
 import { ArrowRight, Twitter, Instagram, Linkedin, Facebook, Youtube } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -12,30 +13,30 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-10">
           {/* Company info */}
           <div className="md:col-span-1">
-            <a href="#" className="flex items-center space-x-2 mb-6">
+            <Link to="/" className="flex items-center space-x-2 mb-6">
               <span className="text-3xl font-bold font-futura text-gradient">
                 AJent<span className="text-ajent-blue">.</span>io
               </span>
-            </a>
+            </Link>
             <p className="text-ajent-silver/70 mb-6">
               Transforming businesses with intelligent AI agents that deliver real value and enhance customer experiences.
             </p>
             <div className="flex space-x-4">
               {[
-                { icon: <Twitter size={18} />, label: "Twitter" },
-                { icon: <Linkedin size={18} />, label: "LinkedIn" },
-                { icon: <Instagram size={18} />, label: "Instagram" },
-                { icon: <Facebook size={18} />, label: "Facebook" },
-                { icon: <Youtube size={18} />, label: "YouTube" }
+                { icon: <Twitter size={18} />, label: "Twitter", url: "/social/twitter" },
+                { icon: <Linkedin size={18} />, label: "LinkedIn", url: "/social/linkedin" },
+                { icon: <Instagram size={18} />, label: "Instagram", url: "/social/instagram" },
+                { icon: <Facebook size={18} />, label: "Facebook", url: "/social/facebook" },
+                { icon: <Youtube size={18} />, label: "YouTube", url: "/social/youtube" }
               ].map((social, index) => (
-                <a 
+                <Link 
                   key={index} 
-                  href="#" 
+                  to={social.url}
                   aria-label={social.label}
                   className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-ajent-silver hover:text-ajent-blue hover:border-ajent-blue/30 transition-colors"
                 >
                   {social.icon}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -45,19 +46,43 @@ const Footer = () => {
             {[
               {
                 title: "Resources",
-                links: ["Blog", "Case Studies", "Documentation", "Guides", "Webinars"]
+                links: [
+                  { name: "Blog", url: "/blog" },
+                  { name: "Case Studies", url: "/case-studies" },
+                  { name: "Documentation", url: "/documentation" },
+                  { name: "Guides", url: "/guides" },
+                  { name: "Webinars", url: "/webinars" }
+                ]
               },
               {
                 title: "AI Agents",
-                links: ["Lead Generation", "Customer Support", "Appointment Booking", "Sales Automation", "Custom Solutions"]
+                links: [
+                  { name: "Lead Generation", url: "/ai-agents#lead" },
+                  { name: "Customer Support", url: "/ai-agents#customer" },
+                  { name: "Appointment Booking", url: "/ai-agents#appointment" },
+                  { name: "Sales Automation", url: "/ai-agents#sales" },
+                  { name: "Custom Solutions", url: "/custom-solutions" }
+                ]
               },
               {
                 title: "Company",
-                links: ["About Us", "Careers", "Partners", "Contact", "Press Kit"]
+                links: [
+                  { name: "About Us", url: "/about" },
+                  { name: "Careers", url: "/careers" },
+                  { name: "Partners", url: "/partners" },
+                  { name: "Contact", url: "/contact" },
+                  { name: "Press Kit", url: "/press-kit" }
+                ]
               },
               {
                 title: "Legal",
-                links: ["Terms of Service", "Privacy Policy", "Cookie Policy", "GDPR Compliance", "Security"]
+                links: [
+                  { name: "Terms of Service", url: "/terms" },
+                  { name: "Privacy Policy", url: "/privacy" },
+                  { name: "Cookie Policy", url: "/cookies" },
+                  { name: "GDPR Compliance", url: "/gdpr" },
+                  { name: "Security", url: "/security" }
+                ]
               }
             ].map((column, i) => (
               <div key={i} className="space-y-4">
@@ -65,9 +90,9 @@ const Footer = () => {
                 <ul className="space-y-2">
                   {column.links.map((link, j) => (
                     <li key={j}>
-                      <a href="#" className="text-ajent-silver/70 hover:text-ajent-blue transition-colors text-sm">
-                        {link}
-                      </a>
+                      <Link to={link.url} className="text-ajent-silver/70 hover:text-ajent-blue transition-colors text-sm">
+                        {link.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>

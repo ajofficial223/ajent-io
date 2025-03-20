@@ -12,10 +12,17 @@ interface SplineSceneProps {
 export function SplineScene({ scene, className = "" }: SplineSceneProps) {
   const [isSplineError, setIsSplineError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const fallbackImage = "/lovable-uploads/e9e5aec1-7053-47f7-ba66-9af96b467fda.png";
 
   // Check if WebGL is supported right away
   useEffect(() => {
+    // Preload the fallback image
+    const img = new Image();
+    img.src = fallbackImage;
+    img.onload = () => setImageLoaded(true);
+    
     // Immediately test for WebGL support
     try {
       const canvas = document.createElement('canvas');
@@ -70,21 +77,28 @@ export function SplineScene({ scene, className = "" }: SplineSceneProps) {
     }
   };
 
-  // If there's an error, show the fallback image immediately
-  if (isSplineError) {
+  // If there's an error or still loading, show the fallback image
+  if (isSplineError || isLoading) {
     return (
       <div className="w-full h-full flex items-center justify-center">
-        <img 
-          src="/robot-fallback.png" 
-          alt="AI Robot" 
-          className="object-contain max-h-full"
-          onError={(e) => {
-            // If even the fallback image fails to load, show a colored div
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-            target.parentElement!.classList.add('bg-ajent-blue/10', 'rounded-xl');
-          }}
-        />
+        <div className="relative w-full h-full">
+          <img 
+            src={fallbackImage}
+            alt="AI Robot" 
+            className="object-contain max-h-full w-full h-full"
+            onError={(e) => {
+              // If even the fallback image fails to load, show a colored div
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+              target.parentElement!.classList.add('bg-ajent-blue/10', 'rounded-xl');
+            }}
+          />
+          {isLoading && !isSplineError && (
+            <div className="absolute inset-0 flex items-center justify-center bg-ajent-dark/30">
+              <span className="loader"></span>
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -93,7 +107,11 @@ export function SplineScene({ scene, className = "" }: SplineSceneProps) {
     <Suspense 
       fallback={
         <div className="w-full h-full flex items-center justify-center">
-          <span className="loader"></span>
+          <img 
+            src={fallbackImage}
+            alt="AI Robot" 
+            className="object-contain max-h-full w-full h-full"
+          />
         </div>
       }
     >

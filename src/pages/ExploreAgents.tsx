@@ -1,6 +1,7 @@
 
 import { useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Navbar from '../components/Navbar';
@@ -46,6 +47,8 @@ const agentsData = [
 ];
 
 const ExploreAgents = () => {
+  const navigate = useNavigate();
+  
   useEffect(() => {
     // Setup scroll reveal animations
     const setupObserver = () => {
@@ -70,6 +73,10 @@ const ExploreAgents = () => {
     setupObserver();
   }, []);
 
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
   const handleTryAgent = (webhook: string) => {
     console.log(`Connecting to webhook: ${webhook}`);
     // Here you would implement the actual webhook connection
@@ -85,7 +92,7 @@ const ExploreAgents = () => {
           <Button 
             variant="ghost" 
             className="flex items-center text-ajent-silver hover:text-ajent-blue mr-4"
-            onClick={() => window.history.back()}
+            onClick={handleBackClick}
           >
             <ArrowLeft className="mr-2 h-5 w-5" />
             Back

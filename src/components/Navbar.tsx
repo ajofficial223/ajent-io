@@ -1,10 +1,12 @@
 
 import { useState, useEffect } from 'react';
 import { Menu, X, Globe, ChevronDown } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -29,39 +31,42 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center space-x-2">
+        <Link to="/" className="flex items-center space-x-2">
           <span className="text-2xl font-bold font-futura text-gradient">
             AJent<span className="text-ajent-blue">.</span>io
           </span>
-        </a>
+        </Link>
         
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <div className="group relative">
-            <button className="flex items-center space-x-1 text-ajent-silver hover:text-ajent-blue transition-colors">
+            <button 
+              className="flex items-center space-x-1 text-ajent-silver hover:text-ajent-blue transition-colors"
+              onClick={() => navigate('/ai-agents')}
+            >
               <span>AI Agents</span>
               <ChevronDown size={16} />
             </button>
             <div className="absolute top-full pt-2 left-0 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
               <div className="glass-card rounded-md p-2">
-                <a href="#" className="block px-4 py-2 rounded-md hover:bg-white/10 transition-colors">Lead Generation</a>
-                <a href="#" className="block px-4 py-2 rounded-md hover:bg-white/10 transition-colors">Customer Service</a>
-                <a href="#" className="block px-4 py-2 rounded-md hover:bg-white/10 transition-colors">Sales Automation</a>
+                <Link to="/ai-agents#lead" className="block px-4 py-2 rounded-md hover:bg-white/10 transition-colors">Lead Generation</Link>
+                <Link to="/ai-agents#customer" className="block px-4 py-2 rounded-md hover:bg-white/10 transition-colors">Customer Service</Link>
+                <Link to="/ai-agents#sales" className="block px-4 py-2 rounded-md hover:bg-white/10 transition-colors">Sales Automation</Link>
               </div>
             </div>
           </div>
           
-          <a href="#" className="text-ajent-silver hover:text-ajent-blue transition-colors">
+          <Link to="/explore-agents" className="text-ajent-silver hover:text-ajent-blue transition-colors">
             Agent Library
-          </a>
+          </Link>
           
-          <a href="#" className="text-ajent-silver hover:text-ajent-blue transition-colors">
+          <Link to="/resources" className="text-ajent-silver hover:text-ajent-blue transition-colors">
             Resources
-          </a>
+          </Link>
           
-          <a href="#" className="text-ajent-silver hover:text-ajent-blue transition-colors">
+          <Link to="/pricing" className="text-ajent-silver hover:text-ajent-blue transition-colors">
             Pricing
-          </a>
+          </Link>
           
           <div className="group relative">
             <button className="flex items-center space-x-1 text-ajent-silver hover:text-ajent-blue transition-colors">
@@ -98,28 +103,64 @@ const Navbar = () => {
       >
         <nav className="flex flex-col space-y-4 p-4">
           <div className="border-b border-white/10 pb-4">
-            <button className="flex items-center justify-between w-full text-ajent-silver hover:text-ajent-blue transition-colors">
+            <button 
+              className="flex items-center justify-between w-full text-ajent-silver hover:text-ajent-blue transition-colors"
+              onClick={() => {
+                navigate('/ai-agents');
+                setIsMenuOpen(false);
+              }}
+            >
               <span>AI Agents</span>
               <ChevronDown size={16} />
             </button>
             <div className="mt-2 pl-4 space-y-2">
-              <a href="#" className="block py-2 text-ajent-silver hover:text-ajent-blue transition-colors">Lead Generation</a>
-              <a href="#" className="block py-2 text-ajent-silver hover:text-ajent-blue transition-colors">Customer Service</a>
-              <a href="#" className="block py-2 text-ajent-silver hover:text-ajent-blue transition-colors">Sales Automation</a>
+              <Link 
+                to="/ai-agents#lead" 
+                className="block py-2 text-ajent-silver hover:text-ajent-blue transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Lead Generation
+              </Link>
+              <Link 
+                to="/ai-agents#customer" 
+                className="block py-2 text-ajent-silver hover:text-ajent-blue transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Customer Service
+              </Link>
+              <Link 
+                to="/ai-agents#sales" 
+                className="block py-2 text-ajent-silver hover:text-ajent-blue transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sales Automation
+              </Link>
             </div>
           </div>
           
-          <a href="#" className="py-2 border-b border-white/10 text-ajent-silver hover:text-ajent-blue transition-colors">
+          <Link 
+            to="/explore-agents" 
+            className="py-2 border-b border-white/10 text-ajent-silver hover:text-ajent-blue transition-colors"
+            onClick={() => setIsMenuOpen(false)}
+          >
             Agent Library
-          </a>
+          </Link>
           
-          <a href="#" className="py-2 border-b border-white/10 text-ajent-silver hover:text-ajent-blue transition-colors">
+          <Link 
+            to="/resources" 
+            className="py-2 border-b border-white/10 text-ajent-silver hover:text-ajent-blue transition-colors"
+            onClick={() => setIsMenuOpen(false)}
+          >
             Resources
-          </a>
+          </Link>
           
-          <a href="#" className="py-2 border-b border-white/10 text-ajent-silver hover:text-ajent-blue transition-colors">
+          <Link 
+            to="/pricing" 
+            className="py-2 border-b border-white/10 text-ajent-silver hover:text-ajent-blue transition-colors"
+            onClick={() => setIsMenuOpen(false)}
+          >
             Pricing
-          </a>
+          </Link>
           
           <div className="pt-4">
             <button className="flex items-center space-x-2 text-ajent-silver hover:text-ajent-blue transition-colors">

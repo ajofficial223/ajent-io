@@ -90,7 +90,10 @@ const Footer = () => {
                 <ul className="space-y-2">
                   {column.links.map((link, j) => (
                     <li key={j}>
-                      <Link to={link.url} className="text-ajent-silver/70 hover:text-ajent-blue transition-colors text-sm">
+                      <Link 
+                        to={link.url} 
+                        className="text-ajent-silver/70 hover:text-ajent-blue transition-colors text-sm"
+                      >
                         {link.name}
                       </Link>
                     </li>

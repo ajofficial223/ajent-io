@@ -23,22 +23,20 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               {[
-                { icon: <Twitter size={18} />, label: "Twitter", url: "https://twitter.com" },
-                { icon: <Linkedin size={18} />, label: "LinkedIn", url: "https://linkedin.com" },
-                { icon: <Instagram size={18} />, label: "Instagram", url: "https://instagram.com" },
-                { icon: <Facebook size={18} />, label: "Facebook", url: "https://facebook.com" },
-                { icon: <Youtube size={18} />, label: "YouTube", url: "https://youtube.com" }
+                { icon: <Twitter size={18} />, label: "Twitter", url: "/social/twitter" },
+                { icon: <Linkedin size={18} />, label: "LinkedIn", url: "/social/linkedin" },
+                { icon: <Instagram size={18} />, label: "Instagram", url: "/social/instagram" },
+                { icon: <Facebook size={18} />, label: "Facebook", url: "/social/facebook" },
+                { icon: <Youtube size={18} />, label: "YouTube", url: "/social/youtube" }
               ].map((social, index) => (
-                <a 
-                  key={index} 
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  key={index}
+                  to={social.url}
                   aria-label={social.label}
                   className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-ajent-silver hover:text-ajent-blue hover:border-ajent-blue/30 transition-colors"
                 >
                   {social.icon}
-                </a>
+                </Link>
               ))}
             </div>
           </div>

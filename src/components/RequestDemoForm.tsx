@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -109,117 +110,119 @@ const RequestDemoForm = ({ open, onOpenChange }: RequestDemoFormProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px] bg-ajent-dark border border-ajent-blue/30 text-ajent-silver">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-white">Request a Demo</DialogTitle>
-          <DialogDescription className="text-ajent-silver/80">
-            Fill out the form below and we'll get back to you shortly.
-          </DialogDescription>
-        </DialogHeader>
-        
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Your Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="John Doe" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="website"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Website or Team Name (Optional)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="example.com or Team Name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="you@example.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="agentType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Agent Type</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+      <DialogContent className="sm:max-w-[500px] bg-ajent-dark border border-ajent-blue/30 text-ajent-silver max-h-[90vh]">
+        <ScrollArea className="max-h-[80vh] pr-4">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-white">Request a Demo</DialogTitle>
+            <DialogDescription className="text-ajent-silver/80">
+              Fill out the form below and we'll get back to you shortly.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Your Name</FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select an agent type" />
-                      </SelectTrigger>
+                      <Input placeholder="John Doe" {...field} />
                     </FormControl>
-                    <SelectContent className="bg-ajent-dark border border-ajent-blue/30">
-                      <SelectItem value="seo">SEO Content Writer</SelectItem>
-                      <SelectItem value="copywriter">Copywriter</SelectItem>
-                      <SelectItem value="email">Email Writer</SelectItem>
-                      <SelectItem value="social">Social Media Content</SelectItem>
-                      <SelectItem value="product">Product Description</SelectItem>
-                      <SelectItem value="support">Customer Support</SelectItem>
-                      <SelectItem value="custom">Custom Solution</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Message (Optional)</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="Tell us about your specific needs or requirements..." 
-                      className="min-h-[100px]"
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Any additional details that might help us understand your needs better.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <DialogFooter className="pt-4">
-              <Button 
-                type="submit" 
-                className="w-full bg-ajent-blue hover:bg-ajent-blue-dark transition-colors"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Submitting..." : "Submit Request"}
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="website"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Website or Team Name (Optional)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="example.com or Team Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="you@example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="agentType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Agent Type</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select an agent type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-ajent-dark border border-ajent-blue/30">
+                        <SelectItem value="seo">SEO Content Writer</SelectItem>
+                        <SelectItem value="copywriter">Copywriter</SelectItem>
+                        <SelectItem value="email">Email Writer</SelectItem>
+                        <SelectItem value="social">Social Media Content</SelectItem>
+                        <SelectItem value="product">Product Description</SelectItem>
+                        <SelectItem value="support">Customer Support</SelectItem>
+                        <SelectItem value="custom">Custom Solution</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Message (Optional)</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Tell us about your specific needs or requirements..." 
+                        className="min-h-[100px]"
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Any additional details that might help us understand your needs better.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <DialogFooter className="pt-4">
+                <Button 
+                  type="submit" 
+                  className="w-full bg-ajent-blue hover:bg-ajent-blue-dark transition-colors"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Request"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from 'react';
 
 const TrustedBy = () => {
@@ -29,13 +28,11 @@ const TrustedBy = () => {
     };
   }, []);
   
-  // Define company logos with their names
+  // Define company logos with their names - REDUCED TO 3 as requested
   const companyLogos = [
     { name: "Google", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2880px-Google_2015_logo.svg.png" },
-    { name: "Apple", logo: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" },
     { name: "Reddit", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/5/58/Reddit_logo_new.svg/2560px-Reddit_logo_new.svg.png" },
     { name: "Microsoft", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png" },
-    { name: "Amazon", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png" },
   ];
   
   return (
@@ -54,19 +51,19 @@ const TrustedBy = () => {
           </p>
         </div>
         
-        {/* Animated logos marquee */}
+        {/* Animated logos marquee - IMPROVED ANIMATION */}
         <div className="relative overflow-hidden py-8 my-8">
-          <div className="logos-slide-track animate-marquee flex">
-            {/* First set of logos */}
+          <div className="flex justify-center items-center gap-16 animate-[marquee_20s_linear_infinite]">
+            {/* Larger logos with better spacing */}
             {companyLogos.map((company, index) => (
               <div 
                 key={`logo-1-${index}`}
-                className="mx-6 h-12 flex items-center bg-white/5 px-6 py-3 rounded-lg"
+                className="mx-8 h-24 flex items-center bg-white/5 px-8 py-4 rounded-lg hover:bg-white/10 transition-all duration-300 transform hover:scale-105"
               >
                 <img 
                   src={company.logo} 
                   alt={company.name} 
-                  className="h-6 sm:h-8 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                  className="h-12 sm:h-16 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity"
                 />
               </div>
             ))}
@@ -75,12 +72,12 @@ const TrustedBy = () => {
             {companyLogos.map((company, index) => (
               <div 
                 key={`logo-2-${index}`}
-                className="mx-6 h-12 flex items-center bg-white/5 px-6 py-3 rounded-lg"
+                className="mx-8 h-24 flex items-center bg-white/5 px-8 py-4 rounded-lg hover:bg-white/10 transition-all duration-300 transform hover:scale-105"
               >
                 <img 
                   src={company.logo} 
                   alt={company.name} 
-                  className="h-6 sm:h-8 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                  className="h-12 sm:h-16 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity"
                 />
               </div>
             ))}

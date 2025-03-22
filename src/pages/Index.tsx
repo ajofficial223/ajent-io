@@ -15,6 +15,9 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+    
     // Very short initial loading time to prevent long blank screens
     const timer = setTimeout(() => {
       setIsLoading(false); // Ensure this runs quickly to show content

@@ -29,6 +29,13 @@ const FounderSection = () => {
     };
   }, []);
   
+  // Social media profiles - with ACTIVE LINKEDIN LINK
+  const socialProfiles = [
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/avishkar-jadhav/' },
+    { name: 'Twitter', url: '#' },
+    { name: 'Instagram', url: '#' }
+  ];
+  
   return (
     <section className="py-20 relative tech-bg overflow-hidden">
       {/* Background elements */}
@@ -92,13 +99,15 @@ const FounderSection = () => {
             </div>
             
             <div className="pt-4 flex space-x-4 reveal-text">
-              {['LinkedIn', 'Twitter', 'Instagram'].map((platform, index) => (
+              {socialProfiles.map((profile, index) => (
                 <a 
                   key={index}
-                  href="#" 
+                  href={profile.url} 
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-white/5 hover:bg-white/10 text-ajent-silver hover:text-ajent-blue border border-white/10 hover:border-ajent-blue/30 px-4 py-2 rounded-md transition-all duration-300 text-sm"
                 >
-                  {platform}
+                  {profile.name}
                 </a>
               ))}
             </div>

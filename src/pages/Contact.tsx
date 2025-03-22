@@ -1,26 +1,80 @@
 
 import { ArrowLeft, Mail, MapPin, Phone } from 'lucide-react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
 
   const handleBackClick = () => {
     navigate(-1);
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent",
-      description: "Thank you for contacting us. We'll get back to you soon!",
-      duration: 5000,
-    });
+    setIsSubmitting(true);
+    
+    try {
+      // Convert subject to agent_type (using "custom" as default)
+      const { error } = await supabase
+        .from('demo_requests')
+        .insert({
+          name: formData.name,
+          email: formData.email,
+          agent_type: 'custom', // Default to custom for contact form
+          message: `Subject: ${formData.subject}\n\n${formData.message}`
+        });
+        
+      if (error) {
+        console.error("Error submitting contact form:", error);
+        throw error;
+      }
+      
+      toast({
+        title: "Message Sent",
+        description: "Thank you for contacting us. We'll get back to you soon!",
+        duration: 5000,
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error("Error in form submission:", error);
+      toast({
+        title: "Error",
+        description: "There was a problem sending your message. Please try again.",
+        variant: "destructive",
+        duration: 5000,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -57,6 +111,8 @@ const Contact = () => {
                   <input
                     type="text"
                     id="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     className="w-full bg-ajent-dark/60 border border-white/10 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-ajent-blue/50 text-ajent-silver"
                     required
                   />
@@ -68,6 +124,8 @@ const Contact = () => {
                   <input
                     type="email"
                     id="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full bg-ajent-dark/60 border border-white/10 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-ajent-blue/50 text-ajent-silver"
                     required
                   />
@@ -81,6 +139,8 @@ const Contact = () => {
                 <input
                   type="text"
                   id="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
                   className="w-full bg-ajent-dark/60 border border-white/10 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-ajent-blue/50 text-ajent-silver"
                   required
                 />
@@ -93,6 +153,8 @@ const Contact = () => {
                 <textarea
                   id="message"
                   rows={5}
+                  value={formData.message}
+                  onChange={handleChange}
                   className="w-full bg-ajent-dark/60 border border-white/10 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-ajent-blue/50 text-ajent-silver"
                   required
                 ></textarea>
@@ -101,8 +163,9 @@ const Contact = () => {
               <Button 
                 type="submit"
                 className="w-full bg-ajent-blue hover:bg-ajent-blue-dark transition-colors"
+                disabled={isSubmitting}
               >
-                Send Message
+                {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
             </form>
           </div>

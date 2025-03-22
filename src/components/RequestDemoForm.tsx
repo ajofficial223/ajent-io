@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -70,11 +71,21 @@ const RequestDemoForm = ({ open, onOpenChange }: RequestDemoFormProps) => {
     setIsSubmitting(true);
     
     try {
-      // Here you would implement the actual submission logic
-      console.log("Form submitted:", values);
+      // Insert the form data into Supabase
+      const { error } = await supabase
+        .from('demo_requests')
+        .insert({
+          name: values.name,
+          website: values.website || null,
+          email: values.email,
+          agent_type: values.agentType,
+          message: values.message || null
+        });
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      if (error) {
+        console.error("Error submitting form to Supabase:", error);
+        throw error;
+      }
       
       toast({
         title: "Demo request submitted!",
